@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <h4 class="title">Profile page for {{$ctrl.ninja.name.first}}</h4>
+            <ninja-form mode="edit" ninja="$ctrl.ninja" on-save="$ctrl.save" on-remove="$ctrl.remove"></ninja-form>
+        </div>
+    </div>
+</div>
+<bubble state="home" icon="arrow_back"></bubble>

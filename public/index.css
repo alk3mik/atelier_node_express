@@ -1,0 +1,105 @@
+
+.bold {
+    font-weight: bold !important;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.brand-logo {
+  margin-left: 25px;
+}
+
+.fade {
+    width: 100%;
+    position: absolute;
+}
+
+.fade.ng-enter {
+  transition: opacity 0.2s ease-out;
+  opacity:0;
+}
+
+.fade.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.fade.ng-leave {
+  transition: opacity 0.2s ease-out;
+  opacity:1;
+}
+
+.fade.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.bottom-left {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+}
+
+.card .btn {
+  background: transparent;
+}
+
+.card-image {
+  position: relative;
+  height: 20vw;
+  width: 100%;
+}
+
+.card-image svg {
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+  width: 10vw;
+  height: 100%;
+}
+
+.card-image {
+  background: white;
+}
+
+.card-image svg {
+  transition: all 0.2s;
+}
+
+.card-image:hover svg {
+  animation: jump 500ms ease;
+}
+
+.card-image path {
+  fill: #fafafa !important;
+}
+
+.card-image.male svg path {
+  fill: #601CCB !important;
+}
+
+.card-image.female svg path {
+  fill: #CB7C1C !important;
+}
+
+.waves-effect.waves-blue .waves-ripple {
+  background-color: #3D5AFE;
+}
+
+@keyframes jump {
+  0% {
+  	transform: translateY(0) translateX(-50%);
+  }
+  40% {
+  	transform: translateY(-30px) translateX(-50%);
+  }
+  50% {
+	  transform: translateY(0) translateX(-50%);
+  }
+  60% {
+  	transform: translateY(-15px) translateX(-50%);
+  }
+  100% {
+  	transform: translateY(0) translateX(-50%);
+  }
+}

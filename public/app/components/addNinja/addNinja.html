@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <h4 class="title">Enrole ninja <i>{{$ctrl.ninja.name.first || "unknown"}}</i></h4>
+            <ninja-form mode="add" ninja="$ctrl.ninja" on-save="$ctrl.save"></ninja-form>
+        </div>
+    </div>
+</div>
+<bubble state="home" icon="arrow_back"></bubble>
