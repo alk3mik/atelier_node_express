@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/alk3mik/atelier_node_express#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3"
   },
   "devDependencies": {
