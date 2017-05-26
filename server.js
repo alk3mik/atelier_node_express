@@ -30,41 +30,51 @@ app.use(jsonParser);
 // Update (PUT) - Change something
 // Delete (DELETE)- Remove something
 
-// GET (R.ead)
+// GET (R.ead) all the ninjas JSON file
 app.get('/mocks', function(req, res, next) {
 	res.status(200).sendFile(__dirname + '/mocks/ninjas.json');
-	// res.json(__dirname + '/mocks/ninjas.json');
+	console.log(res.json(__dirname + '/mocks/ninjas.json'));
 });
 
 //POST (C.reate)
-app.post('/mocks', function (req, res, next) {
-	var myNinja = {
-		_id: "666b66666f666666a6666c66",
-		age: 99,
-        eyeColor: "bloodred",
-        name: {
-                first: "Thurston",
-                last: "Moore"
-              },
-        gender: "unknown",
-        clan: "SONIC YOUTH"
-	};
-    var id = req.body.id  
+// app.post('/mocks', function (req, res, next) {
+// 	var myNinjaObj = {
+// 		_id: "666b66666f666666a6666c66",
+// 		age: 99,
+//         eyeColor: "red",
+//         name: {
+//                 first: "Thurston",
+//                 last: "Moore"
+//               },
+//         gender: "unknown",
+//         clan: "SONIC YOUTH"
+// 	};
+
+// 	req.body = myNinjaObj;  
     
-	// res.status(200).send("post! i.e. create!");
-	res.send(req.body);
-      // res.json({message : "Ajoute une nouvelle piscine à la liste", methode : req.method});
-});
-//PUT (U.pdate)
-app.put('/mocks', function (req, res, next) {
-	res.status(200).send("put! i.e. update!");
-      // res.json({message : "Mise à jour des informations d'une piscine dans la liste", methode : req.method});
-});
-//DELETE (D.elete)
-app.delete('/mocks', function (req, res, next) {
-	res.status(200).send("delete! i.e. delete!");
-	  // res.json({message : "Suppression d'une piscine dans la liste", methode : req.method});  
-});
+// 	// res.status(200).send("post! i.e. create!");
+// 	console.log(req.body);
+// 	res.send(req.body);
+//       // res.json({message : "Ajoute une nouvelle piscine à la liste", methode : req.method});
+// });
+
+// // GET only one ninja from the JSON file
+// app.get('/mocks/:591b03816f472697a9056c92', function(req, res, next) {
+// 	console.log(req.query.id);
+// 	var profile_id = req.query.id;
+//     res.render('mocks', {id:profile_id});
+// });
+
+// //PUT (U.pdate)
+// app.put('/mocks', function (req, res) {
+// 	res.status(200).send("put! i.e. update!");
+//       // res.json({message : "Mise à jour des informations d'une piscine dans la liste", methode : req.method});
+// });
+// //DELETE (D.elete)
+// app.delete('/mocks', function (req, res) {
+// 	res.status(200).send("delete! i.e. delete!");
+// 	  // res.json({message : "Suppression d'une piscine dans la liste", methode : req.method});  
+// });
 
 // app listening on port 9000 (the server functions on port 9000)
 app.listen(9000);
