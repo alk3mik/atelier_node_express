@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 // create application/json parser 
 var jsonParser = bodyParser.json();
+var urlParser = bodyParser.urlencoded({ extended: false });
 
 // To serve static files such as images, CSS files, and JavaScript
 // files, contained in the directory 'public', use the express.static
@@ -21,7 +22,9 @@ app.use(function(req, res, next) {
 });
 
 // to support JSON-encoded bodies
-app.use(jsonParser);
+// app.use(jsonParser);
+// to support URL-encoded bodies
+// app.use(urlParser);
 
 // We will create 4+1 CRUD (create, read, update, and delete) routes.
 //
@@ -31,38 +34,60 @@ app.use(jsonParser);
 // Delete (DELETE)- Remove something
 
 // GET (R.ead) all the ninjas JSON file
-app.get('/mocks', function(req, res, next) {
-	res.status(200).sendFile(__dirname + '/mocks/ninjas.json');
-	console.log(res.json(__dirname + '/mocks/ninjas.json'));
+app.get('/mocks/ninjas', jsonParser, function(req, res, next) {
+	// var test = require('url').parse(req.url).query;
+	// console.log(test);
+	console.log(req.body, req.query);
+	// console.log(req.query, req.body);
+	// res.send(req.query);
+
+	// res.send(req.params);
+	// res.send('mocks/ninjas.json');
+	// res.status(200).sendFile(__dirname + '/mocks/ninjas.json');
 });
 
 //POST (C.reate)
 // app.post('/mocks', function (req, res, next) {
-// 	var myNinjaObj = {
-// 		_id: "666b66666f666666a6666c66",
-// 		age: 99,
-//         eyeColor: "red",
-//         name: {
-//                 first: "Thurston",
-//                 last: "Moore"
-//               },
-//         gender: "unknown",
-//         clan: "SONIC YOUTH"
-// 	};
+	// var myNinjaObj = {
+	// 	_id: "666b66666f666666a6666c66",
+	// 	age: 99,
+ //        eyeColor: "red",
+ //        name: {
+ //                first: "Thurston",
+ //                last: "Moore"
+ //              },
+ //        gender: "unknown",
+ //        clan: "SONIC YOUTH"
+	// };
 
-// 	req.body = myNinjaObj;  
+	// req.body = myNinjaObj;
     
 // 	// res.status(200).send("post! i.e. create!");
-// 	console.log(req.body);
-// 	res.send(req.body);
+	// console.log(req.body);
+	// res.send(req.body);
 //       // res.json({message : "Ajoute une nouvelle piscine à la liste", methode : req.method});
 // });
 
 // // GET only one ninja from the JSON file
-// app.get('/mocks/:591b03816f472697a9056c92', function(req, res, next) {
+//
+// Route parameters.
+//
+// Route parameters are named URL segments that are used to capture the values
+// specified at their position in the URL. The captured values are populated in
+// the req.params object, with the name of the route parameter specified in the
+// path as their respective keys.
+//
+// Example:
+// Route path: /users/:userId/books/:bookId
+// Request URL: http://localhost:3000/users/34/books/8989
+// req.params: { "userId": "34", "bookId": "8989" } .
+//
+// app.get('/mocks/ninjas:_id', function(req, res, next) {
+// 	console.log(req.params);
 // 	console.log(req.query.id);
-// 	var profile_id = req.query.id;
-//     res.render('mocks', {id:profile_id});
+// 	res.send(req.query);
+// 	// var profile_id = req.query.id;
+//  //    res.render('mocks', {id:profile_id});
 // });
 
 // //PUT (U.pdate)
