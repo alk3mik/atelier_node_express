@@ -1,18 +1,16 @@
 'use strict'
 
-var express = require('express');
-var bodyParser = require('body-parser');
-
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
 // create application/json parser 
-var jsonParser = bodyParser.json();
-var urlParser = bodyParser.urlencoded({ extended: false });
+const jsonParser = bodyParser.json();
+const urlParser = bodyParser.urlencoded({ extended: false });
+const port = process.env.PORT || 9000;
+const path = require('path');
+const favicon = require('serve-favicon');
+const morgan = require('morgan');
 
-// To serve static files such as images, CSS files, and JavaScript
-// files, contained in the directory 'public', use the express.static
-// built-in middleware function in Express.
-//
-app.use(express.static('public'));
+const app = express();
 
 // Enable CORS (Cross-Origin Resource Sharing) header on ExpressJS
 // more info in https://www.html5rocks.com/en/tutorials/cors/
@@ -23,10 +21,22 @@ app.use(function(req, res, next) {
   next();
 });
 
+// use the ninja favicon public/assets/img/ninja.ico
+app.use(favicon(path.join(__dirname, 'public/assets/img', 'ninja.ico')));
+
+// use the logger *morgan*
+app.use(morgan('dev'));
+
 // to support JSON-encoded bodies
 app.use(jsonParser);
 // to support URL-encoded bodies
 app.use(urlParser);
+
+// To serve static files such as images, CSS files, and JavaScript
+// files, contained in the directory 'public', use the express.static
+// built-in middleware function in Express.
+//
+app.use(express.static('public'));
 
 // We will create 4+1 CRUD (create, read, update, and delete) routes.
 //
@@ -38,19 +48,14 @@ app.use(urlParser);
 var db = require('./mocks/ninjas.json');
 // console.log(db, typeof db);
 
+app.get('/',  function(req, res) {
+	res.sendFile(__dirname + '/index.html');
+});
+
 // GET (R.ead) all the ninjas JSON file
 app.get('/ninja',  function(req, res) {
 	// res.json({ message: 'hooray! welcome to our api!' });
 	res.send(db);
-	// var test = require('url').parse(req.url).query;
-	// console.log(test);
-	// console.log(req.body, req.query);
-	// console.log(req.query, req.body);
-	// res.send(req.query);
-
-	// res.send(req.params);
-	// res.send('mocks/ninjas.json');
-	// res.status(200).sendFile(__dirname + '/mocks/ninjas.json');
 });
 
 //POST (C.reate)
@@ -70,16 +75,15 @@ app.post('/ninja', function (req, res) {
 		"clan": "SONIC YOUTH"
 	}
 */
-
-	// res.json(req.body);
 	
-	var newNinja = createNinja(req.body);
-	console.log(newNinja);
+	let newNinja = createNinja(req.body);
+	db.ninjas.push(newNinja);
+	// console.log(db, typeof db);
 });
 
 function createNinja(reqBody) {
 
-	var ninjaCreated = {
+	let ninjaCreated = {
 		_id: reqBody._id,
 		age: reqBody.age,
 		eyeColor: reqBody.eyeColor,
@@ -115,19 +119,22 @@ app.get('/ninja/:id', function(req, res) {
 	// 	// ...do something...
 	// }
 
-	var gotNinja = findNinja(req.params.id);
-	res.json(gotNinja);
+	// let gotNinja = findNinja(req.params.id);
+	// res.json(gotNinja);
+	let ninjaIndex = findNinja(req.params.id);
+	res.json(db.ninjas[ninjaIndex]);
 
 });
 
 function findNinja(reqParamsId) {
 
-	var len = db.ninjas.length;
-	var i = 0;
+	let len = db.ninjas.length;
+	let i = 0;
 
 	while (i < len) {
 		if (db.ninjas[i]._id === reqParamsId) {
-			return db.ninjas[i];
+			// return db.ninjas[i];
+			return i;
 			break;
 		}
 		i++;
@@ -136,14 +143,16 @@ function findNinja(reqParamsId) {
 }
 
 //PUT (U.pdate)
-app.put('/mocks', function (req, res) {
+app.put('/ninja/:id', function (req, res) {
 	res.status(200).send("put! i.e. update!");
-      // res.json({message : "Mise à jour des informations d'une piscine dans la liste", methode : req.method});
 });
+
 //DELETE (D.elete)
-app.delete('/mocks', function (req, res) {
-	res.status(200).send("delete! i.e. delete!");
-	  // res.json({message : "Suppression d'une piscine dans la liste", methode : req.method});  
+app.delete('/ninja/:id', function (req, res) {
+	let ninjaIndex = findNinja(req.params.id);
+	// console.log(ninjaIndex, typeof ninjaIndex);
+	delete db.ninjas[ninjaIndex];
+	// console.log(db, typeof db);
 });
 
 // REGISTER OUR ROUTES -------------------------------
@@ -151,7 +160,9 @@ app.delete('/mocks', function (req, res) {
 // app.use('/ninjas', express.Router());
 
 // app listening on port 9000 (the server functions on port 9000)
-app.listen(9000);
+app.listen(port, function () {
+    console.log("Adresse du serveur : http://localhost:" + port);
+});
  
 // // // Nous demandons à l'application d'utiliser notre routeur
 // // app.use(myRouter);  
