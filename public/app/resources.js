@@ -19,11 +19,16 @@ angular.module("ninjaApp")
         
         'query': {
             method: 'GET',
-            isArray: false
-            // params: {},
-            // cache: true,
+            isArray: false,
+            params: {},
+            cache: true
             // transformResponse,
             // interceptor
+        },
+
+        'getOne': {
+            method: 'GET',
+            isArray: false
         },
 
         'update': {

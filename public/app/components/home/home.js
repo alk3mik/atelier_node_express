@@ -50,6 +50,7 @@ angular.module("ninjaApp")
             Ninja.query((result) => {
                   this.ninjas = result.ninjas;
             });
+            
 
             // var ninja = Ninja.get({ id: $scope.id }, function() {
             //     console.log(ninja, typeof ninja);

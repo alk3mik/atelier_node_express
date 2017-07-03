@@ -2,9 +2,20 @@
 
 angular.module("ninjaApp")
 
-    .component("ninjaPage", {
-        templateUrl: '/app/components/ninjaPage/ninjaPage.html',
-        controller: function ($stateParams) {
+      .component("ninjaPage", {
+            templateUrl: '/app/components/ninjaPage/ninjaPage.html',
+      // controller: function ($stateParams) {
+      controller: function ($stateParams, Ninja) {
+
+            // Ninja.query((result) => {
+            //       this.ninjas = result.ninjas;
+            // });
+
+            Ninja.getOne({id: $stateParams.id}, (oneNinja) => {
+                  this.ninja = oneNinja;
+                  console.log("This is 'getOne' console ", this.ninja);
+            });
+
             /*
 
             JSON TO DELETE, NEED TO USE A FACTORY THAT SEND A REQUEST THAT FETCH ALL ninjaS
@@ -81,7 +92,7 @@ angular.module("ninjaApp")
             // ]
 
 
-            this.ninja = ninjas.filter((e) => e._id === $stateParams.id)[0]
+            // this.ninja = ninjas.filter((e) => e._id === $stateParams.id)[0]
 
             /*
 
@@ -89,17 +100,19 @@ angular.module("ninjaApp")
 
             */
 
-            this.save = save
-            this.remove = remove
+            this.save = save;
+            this.remove = remove;
 
-            function save() {
-                // need to do some usage of resources
-                console.log(this.ninja)
+            function save(ninjaId) {
+                  Ninja.save();
+                  this.ninja = Ninja.get({id: ninjaId});  
+                  // need to do some usage of resources
+                  console.log("This is SAVE console ", this.ninja);
             }
 
             function remove() {
                 // need to do some usage of resources
-                console.log(this.ninja)
+                console.log("This is REMOVE console ", this.ninja);
             }
 
 
