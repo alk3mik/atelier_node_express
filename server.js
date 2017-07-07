@@ -48,12 +48,12 @@ app.use(express.static('public'));
 var db = require('./mocks/ninjas.json');
 // console.log(db, typeof db);
 
-app.get('/',  function(req, res) {
+app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
 
 // GET (R.ead) all the ninjas JSON file
-app.get('/ninja',  function(req, res) {
+app.get('/ninja', function(req, res) {
 	// res.json({ message: 'hooray! welcome to our api!' });
 	res.send(db);
 });
@@ -84,15 +84,15 @@ app.post('/ninja', function (req, res) {
 function createNinja(reqBody) {
 
 	let ninjaCreated = {
-		_id: reqBody._id,
-		age: reqBody.age,
-		eyeColor: reqBody.eyeColor,
-		name: {
-				first: reqBody.name.first,
-				last: reqBody.name.last
-			},
-		gender: reqBody.gender,
-		clan: reqBody.clan
+		_id 		 : reqBody._id,
+		age 		 : reqBody.age,
+		eyeColor : reqBody.eyeColor,
+		name 		 : {
+								first: reqBody.name.first,
+								last: reqBody.name.last
+							 },
+		gender	 : reqBody.gender,
+		clan 		 : reqBody.clan
 	}
 
 	return ninjaCreated;
@@ -143,16 +143,49 @@ function findNinja(reqParamsId) {
 }
 
 //PUT (U.pdate)
-app.put('/ninja/:id', function (req, res) {
-	res.status(200).send("put! i.e. update!");
+app.put('/ninja/:id', function(req, res) {
+	let currentNinja = db.ninjas[findNinja(req.params.id)];
+	let newNinja = createNinja(req.body);
+// To merge obj2 into obj1 we can use either ES6 (EcmaScript 2015) or ES5 (EcmaScript 20??).
+// 
+// With ES6 we can use the *assign* method:
+//
+// Object.assign(obj1, obj2); where only obj1 is mutated and returned.
+// Later properties overwrite earlier properties with the same name.
+// There's no limit to the number of objects one can merge; all objects get
+// merged into the first object:
+//
+// const allRules = Object.assign({}, obj1, obj2, obj3, etc);
+
+	Object.assign(currentNinja, newNinja);
+
+// With ES5 we define a mergeObjects function (see below).
+
+	// let updatedNinja = mergeObjects(currentNinja, newNinja);
+	// console.log(currentNinja, newNinja, updatedNinja);
+
+// res.status(200).send("put! i.e. update!");
 });
 
+/**
+ * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+ * @param obj1
+ * @param obj2
+ * @returns obj3 a new object based on obj1 and obj2
+ */
+function mergeObjects(obj1, obj2) {
+    let obj3 = {};
+    for (let attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+    for (let attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+    return obj3;
+}
+
 //DELETE (D.elete)
-app.delete('/ninja/:id', function (req, res) {
+app.delete('/ninja/:id', function(req, res) {
 	let ninjaIndex = findNinja(req.params.id);
 	// console.log(ninjaIndex, typeof ninjaIndex);
 	delete db.ninjas[ninjaIndex];
-	// console.log(db, typeof db);
+	// console.log(db, typeof db, db.ninjas[ninjaIndex]);
 });
 
 // REGISTER OUR ROUTES -------------------------------
@@ -160,7 +193,7 @@ app.delete('/ninja/:id', function (req, res) {
 // app.use('/ninjas', express.Router());
 
 // app listening on port 9000 (the server functions on port 9000)
-app.listen(port, function () {
+app.listen(port, function() {
     console.log("Adresse du serveur : http://localhost:" + port);
 });
  

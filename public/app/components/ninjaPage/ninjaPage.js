@@ -13,7 +13,7 @@ angular.module("ninjaApp")
 
             Ninja.getOne({id: $stateParams.id}, (oneNinja) => {
                   this.ninja = oneNinja;
-                  console.log("This is 'getOne' console ", this.ninja);
+                  console.log("This is a console.log from 'getOne' method ", this.ninja);
             });
 
             /*
@@ -103,20 +103,19 @@ angular.module("ninjaApp")
             this.save = save;
             this.remove = remove;
 
-            function save(ninjaId) {
-                  Ninja.save();
-                  this.ninja = Ninja.get({id: ninjaId});  
+            function save() {
+                  Ninja.save(this.ninja);
+                  // this.ninja = Ninja.get({id: ninjaId});  
                   // need to do some usage of resources
+                  // console.log("This is SAVE console ", ninjaId, this.ninja);
                   console.log("This is SAVE console ", this.ninja);
             }
 
             function remove() {
-                // need to do some usage of resources
-                console.log("This is REMOVE console ", this.ninja);
+                  Ninja.delete(this.ninja);
+                  // Ninja.remove(this.ninja);
+                  // need to do some usage of resources
+                  console.log("This is REMOVE console ", this.ninja);
             }
-
-
-
         }
-    })
-
+    });

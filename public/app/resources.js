@@ -19,9 +19,10 @@ angular.module("ninjaApp")
         
         'query': {
             method: 'GET',
-            isArray: false,
-            params: {},
-            cache: true
+            isArray: false
+            // ,
+            // params: {},
+            // cache: true
             // transformResponse,
             // interceptor
         },
@@ -33,6 +34,14 @@ angular.module("ninjaApp")
 
         'update': {
             method: 'PUT' // this method issues a PUT request
+        },
+
+        'save': {
+            method: 'PUT' // this method issues a PUT request
+        },
+
+        'remove': {
+            method: 'DELETE' // this method issues a PUT request
         }
 
     });

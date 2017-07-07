@@ -35,7 +35,7 @@ angular.module("ninjaApp")
             });
 */
 
-            controller: function ($scope, Ninja) {
+            controller: function($scope, Ninja) {
 // By, instead, using the $resource named *Ninja*, we will have:
 //
 // ECMAScript 3/5 (choice 1)
@@ -47,10 +47,9 @@ angular.module("ninjaApp")
             // });
 
 // ECMAScript 6 (choice 2)
-            Ninja.query((result) => {
-                  this.ninjas = result.ninjas;
-            });
-            
+                  Ninja.query((result) => {
+                        this.ninjas = result.ninjas;
+                  });
 
             // var ninja = Ninja.get({ id: $scope.id }, function() {
             //     console.log(ninja, typeof ninja);
@@ -164,8 +163,5 @@ angular.module("ninjaApp")
             JSON TO DELETE, NEED TO USE A FACTORY THAT SEND A REQUEST THAT FETCH ALL ninjaS
 
             */
-
-
-
         }
-    })
+    });
