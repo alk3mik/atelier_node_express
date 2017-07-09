@@ -182,10 +182,11 @@ function mergeObjects(obj1, obj2) {
 
 //DELETE (D.elete)
 app.delete('/ninja/:id', function(req, res) {
+	console.log("We will remove the ninja with ID" + req.params.id);
 	let ninjaIndex = findNinja(req.params.id);
-	// console.log(ninjaIndex, typeof ninjaIndex);
-	delete db.ninjas[ninjaIndex];
-	// console.log(db, typeof db, db.ninjas[ninjaIndex]);
+	db.ninjas.splice(ninjaIndex, 1); //remove 1 item at the "ninjaIndex"-th position
+	res.redirect("/");
+	// console.log(db.ninjas, db.ninjas[ninjaIndex]);
 });
 
 // REGISTER OUR ROUTES -------------------------------

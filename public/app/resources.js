@@ -32,17 +32,21 @@ angular.module("ninjaApp")
             isArray: false
         },
 
-        'update': {
-            method: 'PUT' // this method issues a PUT request
-        },
+        // 'update': {
+        //     method: 'PUT' // this method issues a PUT request
+        // },
 
         'save': {
             method: 'PUT' // this method issues a PUT request
         },
 
-        'remove': {
+        'delete': {
             method: 'DELETE' // this method issues a PUT request
         }
+
+        // 'remove': {
+        //     method: 'DELETE' // this method issues a PUT request
+        // }
 
     });
 }]);
