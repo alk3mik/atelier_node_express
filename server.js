@@ -81,24 +81,6 @@ app.post('/ninja', function (req, res) {
 	// console.log(db, typeof db);
 });
 
-function createNinja(reqBody) {
-
-	let ninjaCreated = {
-		_id 		 : reqBody._id,
-		age 		 : reqBody.age,
-		eyeColor : reqBody.eyeColor,
-		name 		 : {
-								first: reqBody.name.first,
-								last: reqBody.name.last
-							 },
-		gender	 : reqBody.gender,
-		clan 		 : reqBody.clan
-	}
-
-	return ninjaCreated;
-
-}
-
 // // GET only one ninja from the JSON file
 //
 // Route parameters.
@@ -126,22 +108,6 @@ app.get('/ninja/:id', function(req, res) {
 
 });
 
-function findNinja(reqParamsId) {
-
-	let len = db.ninjas.length;
-	let i = 0;
-
-	while (i < len) {
-		if (db.ninjas[i]._id === reqParamsId) {
-			// return db.ninjas[i];
-			return i;
-			break;
-		}
-		i++;
-	}
-
-}
-
 //PUT (U.pdate)
 app.put('/ninja/:id', function(req, res) {
 	let currentNinja = db.ninjas[findNinja(req.params.id)];
@@ -158,7 +124,8 @@ app.put('/ninja/:id', function(req, res) {
 // const allRules = Object.assign({}, obj1, obj2, obj3, etc);
 
 	Object.assign(currentNinja, newNinja);
-
+	res.sendStatus(200); // equivalent to res.status(200).send('OK')
+	
 // With ES5 we define a mergeObjects function (see below).
 
 	// let updatedNinja = mergeObjects(currentNinja, newNinja);
@@ -166,6 +133,54 @@ app.put('/ninja/:id', function(req, res) {
 
 // res.status(200).send("put! i.e. update!");
 });
+
+//DELETE (D.elete)
+app.delete('/ninja/:id', function(req, res) {
+	console.log("We will remove the ninja with ID" + req.params.id);
+	let ninjaIndex = findNinja(req.params.id);
+	db.ninjas.splice(ninjaIndex, 1); //remove 1 item at the "ninjaIndex"-th position
+	res.sendStatus(200); // equivalent to res.status(200).send('OK')
+	// res.status(200);
+	// console.log(db.ninjas, db.ninjas[ninjaIndex]);
+});
+
+/*
+	FUNCTIONS DEFINITION
+*/
+
+function createNinja(reqBody) {
+
+	let ninjaCreated = {
+		_id 		 : reqBody._id,
+		age 		 : reqBody.age,
+		eyeColor : reqBody.eyeColor,
+		name 		 : {
+								first: reqBody.name.first,
+								last: reqBody.name.last
+							 },
+		gender	 : reqBody.gender,
+		clan 		 : reqBody.clan
+	}
+
+	return ninjaCreated;
+
+}
+
+function findNinja(reqParamsId) {
+
+	let len = db.ninjas.length;
+	let i = 0;
+
+	while (i < len) {
+		if (db.ninjas[i]._id === reqParamsId) {
+			// return db.ninjas[i];
+			return i;
+			break;
+		}
+		i++;
+	}
+
+}
 
 /**
  * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
@@ -179,15 +194,6 @@ function mergeObjects(obj1, obj2) {
     for (let attrname in obj2) { obj3[attrname] = obj2[attrname]; }
     return obj3;
 }
-
-//DELETE (D.elete)
-app.delete('/ninja/:id', function(req, res) {
-	console.log("We will remove the ninja with ID" + req.params.id);
-	let ninjaIndex = findNinja(req.params.id);
-	db.ninjas.splice(ninjaIndex, 1); //remove 1 item at the "ninjaIndex"-th position
-	res.redirect("/");
-	// console.log(db.ninjas, db.ninjas[ninjaIndex]);
-});
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /ninjas

@@ -40,12 +40,12 @@ angular.module("ninjaApp")
             method: 'PUT' // this method issues a PUT request
         },
 
-        'delete': {
-            method: 'DELETE' // this method issues a PUT request
-        }
+        // 'delete': {
+        //     method: 'DELETE' // this method issues a DELETE request
+        // }
 
         // 'remove': {
-        //     method: 'DELETE' // this method issues a PUT request
+        //     method: 'DELETE' // this method issues a DELETE request
         // }
 
     });
