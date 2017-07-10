@@ -54,7 +54,6 @@ app.get('/', function(req, res) {
 
 // GET (R.ead) all the ninjas JSON file
 app.get('/ninja', function(req, res) {
-	// res.json({ message: 'hooray! welcome to our api!' });
 	res.send(db);
 });
 
@@ -78,7 +77,7 @@ app.post('/ninja', function (req, res) {
 	
 	let newNinja = createNinja(req.body);
 	db.ninjas.push(newNinja);
-	// console.log(db, typeof db);
+	res.sendStatus(200); // equivalent to res.status(200).send('OK')
 });
 
 // // GET only one ninja from the JSON file
@@ -97,12 +96,6 @@ app.post('/ninja', function (req, res) {
 //
 app.get('/ninja/:id', function(req, res) {
 
-	// for (var prop in db) {
-	// 	// ...do something...
-	// }
-
-	// let gotNinja = findNinja(req.params.id);
-	// res.json(gotNinja);
 	let ninjaIndex = findNinja(req.params.id);
 	res.json(db.ninjas[ninjaIndex]);
 
@@ -148,10 +141,22 @@ app.delete('/ninja/:id', function(req, res) {
 	FUNCTIONS DEFINITION
 */
 
+function generateID() {
+  // Adapted from https://gist.github.com/gordonbrander/2230317
+  //
+  // It generates a 24-digits ID in hexadecimal base.
+  //
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 24 characters
+  // after the decimal.
+  return Math.random().toString(36).substr(2, 24);
+}
+
 function createNinja(reqBody) {
 
 	let ninjaCreated = {
-		_id 		 : reqBody._id,
+		// _id 		 : reqBody._id,
+		_id 		 : generateID(),
 		age 		 : reqBody.age,
 		eyeColor : reqBody.eyeColor,
 		name 		 : {

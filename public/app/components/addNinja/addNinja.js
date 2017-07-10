@@ -4,7 +4,8 @@ angular.module("ninjaApp")
 
     .component("addNinja", {
         templateUrl: '/app/components/addNinja/addNinja.html',
-        controller: function () {
+        // controller: function () {
+        controller: function ($state, Ninja) {
 
             this.ninja = {
                 age: 0,
@@ -17,11 +18,14 @@ angular.module("ninjaApp")
                 clan: ""
             }
 
-            this.save = save
+            this.save = save;
 
             function save() {
                 // need to do some usage of resources
-                console.log(this.ninja)
+                Ninja.save(this.ninja, (result) => {
+                    $state.go("home");
+                });
+                // console.log(this.ninja);
             }
 
         }
