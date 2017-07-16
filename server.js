@@ -9,6 +9,7 @@ const port = process.env.PORT || 9000;
 const path = require('path');
 const favicon = require('serve-favicon');
 const morgan = require('morgan');
+const fs = require('fs');
 
 const app = express();
 
@@ -45,8 +46,16 @@ app.use(express.static('public'));
 // Update (PUT) - Change something
 // Delete (DELETE)- Remove something
 
-var db = require('./mocks/ninjas.json');
-// console.log(db, typeof db);
+
+
+let dbString = fs.readFileSync('./mocks/ninjas.json', 'utf-8'); // synchronous read
+// let dbString = fs.readFile('./mocks/ninjas.json', 'utf-8', (err) => { // asynchronous read
+// 	if (err) {
+// 		throw err;
+// 	}
+// 	console.log("file read successfully");
+// });
+let db = JSON.parse(dbString);
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -75,9 +84,20 @@ app.post('/ninja', function (req, res) {
 	}
 */
 	
-	let newNinja = createNinja(req.body);
-	db.ninjas.push(newNinja);
-	res.sendStatus(200); // equivalent to res.status(200).send('OK')
+	// let newNinja = createNinja(req.body);
+	// db.ninjas.push(newNinja);
+	req.body._id = generateID();
+	db.ninjas.push(req.body);
+
+	// Overwrite the exiting file with the new one
+	fs.writeFile('./mocks/ninjas.json', JSON.stringify(db), (err) => {
+		if (err) {
+			throw err;
+		}
+		res.sendStatus(200); // equivalent to res.status(200).send('OK')
+	});
+	// fs.writeFileSync('./mocks/ninjas.json', JSON.stringify(db));
+	// console.log(req.body, typeof req.body, req.body._id, typeof req.body._id, JSON.stringify(req.body), typeof JSON.stringify(req.body));
 });
 
 // // GET only one ninja from the JSON file
@@ -101,10 +121,11 @@ app.get('/ninja/:id', function(req, res) {
 
 });
 
+
 //PUT (U.pdate)
 app.put('/ninja/:id', function(req, res) {
-	let currentNinja = db.ninjas[findNinja(req.params.id)];
-	let newNinja = createNinja(req.body);
+	// let currentNinja = db.ninjas[findNinja(req.params.id)];
+	// let newNinja = createNinja(req.body);
 // To merge obj2 into obj1 we can use either ES6 (EcmaScript 2015) or ES5 (EcmaScript 20??).
 // 
 // With ES6 we can use the *assign* method:
@@ -116,25 +137,43 @@ app.put('/ninja/:id', function(req, res) {
 //
 // const allRules = Object.assign({}, obj1, obj2, obj3, etc);
 
-	Object.assign(currentNinja, newNinja);
-	res.sendStatus(200); // equivalent to res.status(200).send('OK')
+	// Object.assign(currentNinja, newNinja);
+	// res.sendStatus(200); // equivalent to res.status(200).send('OK')
 	
 // With ES5 we define a mergeObjects function (see below).
 
 	// let updatedNinja = mergeObjects(currentNinja, newNinja);
 	// console.log(currentNinja, newNinja, updatedNinja);
 
-// res.status(200).send("put! i.e. update!");
+	let newNinja = createNinja(req.body);
+	let i = findNinja(req.params.id);
+	db.ninjas[i] = newNinja;
+
+	// Overwrite the exiting file with the new one
+	fs.writeFile('./mocks/ninjas.json', JSON.stringify(db), (err) => {
+		if (err) {
+			throw err;
+		}
+		res.sendStatus(200); // equivalent to res.status(200).send('OK')
+	});
 });
+
 
 //DELETE (D.elete)
 app.delete('/ninja/:id', function(req, res) {
+	
 	console.log("We will remove the ninja with ID" + req.params.id);
+	
 	let ninjaIndex = findNinja(req.params.id);
 	db.ninjas.splice(ninjaIndex, 1); //remove 1 item at the "ninjaIndex"-th position
-	res.sendStatus(200); // equivalent to res.status(200).send('OK')
-	// res.status(200);
-	// console.log(db.ninjas, db.ninjas[ninjaIndex]);
+
+	fs.writeFile('./mocks/ninjas.json', JSON.stringify(db), (err) => {
+		if (err) {
+			throw err;
+		}
+		res.sendStatus(200); // equivalent to res.status(200).send('OK')
+	});
+
 });
 
 /*

@@ -55,40 +55,12 @@ angular.module("ninjaApp")
 
 // ECMAScript 6 (choice 2)
                   Ninja.query((result) => {
-                        this.ninjas = result.ninjas;
-                  });
-
-            // var ninja = Ninja.get({ id: $scope.id }, function() {
-            //     console.log(ninja, typeof ninja);
-            // }); // get() returns a single ninja
-// const that = this;
-            // $resource("/ninja").get().$promise.then(function(Bdd){
-            //       console.log(Bdd)
-            //       that.ninjas = Bdd.ninjas
-            // })
-            // var ninjas = Ninja.get(function() {
-// that.ninjas = ninjas;
-            // }); // query() returns all the ninjas
-            // console.log(ninjas.ninjas, typeof ninjas);
-
-            // $scope.ninja = new Ninja(); //You can instantiate resource class
-            // // $scope.ninja.data = 'some data';
-            // $scope.ninja.data = {
-            //     "_id": "666b66666f666666a6666c66",
-            //     "age": 99,
-            //     "eyeColor": "red",
-            //     "name": {
-            //         "first": "Thurston",
-            //         "last": "Moore"
-            //     },
-            //     "gender": "unknown",
-            //     "clan": "SONIC YOUTH"
-            // };
-
-            // Ninja.save($scope.ninja, function() {
-            //     console.log($scope.ninja);
-            //     //data saved. do something here.
-            // }); //saves an entry. Assuming $scope.entry is the Entry object
+                              this.ninjas = result.ninjas;
+                        },
+                              (error) => {
+                              console.log("The ERROR " + error + " occurred, with STATUS " + error.status);
+                        }
+                  );
 
         }
     });

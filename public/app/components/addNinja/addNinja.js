@@ -23,9 +23,12 @@ angular.module("ninjaApp")
             function save() {
                 // need to do some usage of resources
                 Ninja.save(this.ninja, (result) => {
-                    $state.go("home");
-                });
-                // console.log(this.ninja);
+                            $state.go("home");
+                        },
+                                        (error) => {
+                            console.log("The ERROR " + error + " occurred, with STATUS " + error.status);
+                        }
+                );
             }
 
         }

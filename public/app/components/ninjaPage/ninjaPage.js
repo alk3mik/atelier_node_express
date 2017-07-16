@@ -8,9 +8,12 @@ angular.module("ninjaApp")
       controller: function ($stateParams, $state, Ninja) {
 
             Ninja.getOne({id: $stateParams.id}, (oneNinja) => {
-                  this.ninja = oneNinja;
-                  // console.log("This is a console.log from 'getOne' method ", this.ninja);
-            });
+                        this.ninja = oneNinja;
+                  },
+                                                (error) => {
+                        console.log("The ERROR " + error + " occurred, with STATUS " + error.status);
+                  }
+            );
 
             /*
                   NEED TO USE A FACTORY THAT SEND A REQUEST THAT FETCH ALL ninjaS
@@ -20,23 +23,25 @@ angular.module("ninjaApp")
             this.remove = remove;
 
             function save() {
-                  // Ninja.save(this.ninja, (result) => {
+                  
                   Ninja.update(this.ninja, (result) => {
-                        // if (result.$resolved === true) {
                               $state.go("home");
-                        // }
-                  });
-                  // console.log("This is SAVE console ", this.ninja);
+                        },
+                                          (error) => {
+                              console.log("The ERROR " + error + " occurred, with STATUS " + error.status);
+                        }
+                  );
             }
 
             function remove() {
                   // need to do some usage of resources
                   Ninja.delete({id: $stateParams.id}, (result) => {
-                        // if (result.$resolved === true) {
                               $state.go("home");
-                        // }
-                  });
-                  // console.log("This is REMOVE console ", this.ninja, this.ninja._id);
+                        },
+                                                      (error) => {
+                              console.log("The ERROR " + error + " occurred, with STATUS " + error.status);
+                        }
+                  );
             }
         }
     });
