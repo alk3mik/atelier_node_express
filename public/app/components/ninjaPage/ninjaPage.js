@@ -23,7 +23,6 @@ angular.module("ninjaApp")
             this.remove = remove;
 
             function save() {
-                  
                   Ninja.update(this.ninja, (result) => {
                               $state.go("home");
                         },
