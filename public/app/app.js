@@ -13,7 +13,8 @@ const run = [
 
 angular.module('ninjaApp', [
     "ui.router",
-    "ngAnimate"
+    "ngAnimate",
+    "ngResource"
 ])
 
     .config(config)
